@@ -7,6 +7,11 @@
 
 import UIKit
 
+extension UIColor {
+    static var mainPink = UIColor(red: 232/255, green: 68/255, blue: 133/255, alpha: 1)
+    static var secondPick = UIColor(red: 249/255, green: 207/255, blue: 224/255, alpha: 1)
+}
+
 class ViewController: UIViewController {
 
     // Получение и настройка image
@@ -21,6 +26,34 @@ class ViewController: UIViewController {
         imageView.contentMode = .scaleAspectFit
 
         return imageView
+    }()
+
+    // Создание кнопки назад и вперед
+    private let previouslyBotton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("PREV", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitleColor(.gray, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private let nextBotton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("NEXT", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 14)
+        button.setTitleColor(.mainPink, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    private let pageControl: UIPageControl = {
+        let pc = UIPageControl()
+        pc.currentPage = 0
+        pc.numberOfPages = 4
+        pc.pageIndicatorTintColor = .secondPick
+        pc.currentPageIndicatorTintColor = .mainPink
+        return pc
     }()
 
     // Получение и настройка TextView
@@ -53,7 +86,33 @@ class ViewController: UIViewController {
         // Добавление image и text на view
         // view.addSubview(bearFirstImage)
         view.addSubview(descriptionTextView)
+        setupBottonControls()
         setupLayout()
+    }
+
+
+    fileprivate func setupBottonControls(){
+
+        // view.addSubview(previouslyBotton) - убрано, так как добавим в стек.
+
+        // Задан фрейм кнопки, чтобы разместить ее фиксированно в определенной точке.
+        // previouslyBotton.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+
+        let bottomControlsStackView = UIStackView(arrangedSubviews: [previouslyBotton, pageControl, nextBotton])
+        bottomControlsStackView.translatesAutoresizingMaskIntoConstraints = false
+        // позволит расположить элементы поровну внутри стека.
+        bottomControlsStackView.distribution = .fillEqually
+        // позволяет менять ориентацию стека (на вертикальный)
+        // bottomControlsStackView.axis = .vertical
+        view.addSubview(bottomControlsStackView)
+
+        // Создание констрейн без указания isActive
+        NSLayoutConstraint.activate([
+            bottomControlsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            bottomControlsStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bottomControlsStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            bottomControlsStackView.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
 
     // Добавление констрейнов к image
@@ -84,7 +143,7 @@ class ViewController: UIViewController {
         bearFirstImage.centerYAnchor.constraint(equalTo: topImageContainerView.centerYAnchor).isActive = true
         bearFirstImage.heightAnchor.constraint(equalTo: topImageContainerView.heightAnchor, multiplier: 0.6).isActive = true
 
-        /*
+        /* этот код был убран, так как bearFirstImage был добавлен в topImageContainerView
         bearFirstImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         bearFirstImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         bearFirstImage.widthAnchor.constraint(equalToConstant: 200).isActive = true
