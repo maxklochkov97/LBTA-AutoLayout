@@ -9,7 +9,22 @@ import UIKit
 
 class PageCell: UICollectionViewCell {
 
-    let bearFirstImage: UIImageView = {
+    var page: Page? {
+        didSet {
+            // print(page?.imageName)
+            guard let unwrappedPage = page else { return }
+            bearFirstImage.image = UIImage(named: unwrappedPage.imageName)
+
+            let attributedText = NSMutableAttributedString(string: unwrappedPage.headerText, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)])
+
+            attributedText.append(NSAttributedString(string: "\n\n\n \(unwrappedPage.bodyText)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),NSAttributedString.Key.foregroundColor: UIColor.gray]))
+
+            descriptionTextView.attributedText = attributedText
+            descriptionTextView.textAlignment = .center
+        }
+    }
+
+    private let bearFirstImage: UIImageView = {
         let image = UIImage(named: "bear_first")
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,17 +32,18 @@ class PageCell: UICollectionViewCell {
         return imageView
     }()
 
-    let descriptionTextView: UITextView = {
+    private let descriptionTextView: UITextView = {
         let textView = UITextView()
 
-        let attributedText = NSMutableAttributedString(string: "Join us today in our fun and games!",
-                                                       attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)])
+        let attributedText = NSMutableAttributedString(string: "Join us today in our fun and games!", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)])
 
         attributedText.append(NSAttributedString(string: "\n\n\nAre you ready for loads and loads of fun? Don't wait any longer! We hope to see you in our stores soon.",
                                                  attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 13),
                                                               NSAttributedString.Key.foregroundColor: UIColor.gray]))
 
         textView.attributedText = attributedText
+        textView.font = .boldSystemFont(ofSize: 18)
+        textView.textColor = .black
 
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textAlignment = .center
