@@ -20,12 +20,8 @@ extension SwipingController {
                 let indexPath = IndexPath(item: self.pageControl.currentPage, section: 0)
                 self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
-            
-            
-            
         } completion: { (_) in
             
         }
-        
     }
 }

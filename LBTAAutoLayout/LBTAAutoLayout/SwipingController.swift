@@ -7,14 +7,7 @@
 
 import UIKit
 
-
-
 class SwipingController: UICollectionViewController, UICollectionViewDelegateFlowLayout  {
-
-    /* Это аварийный участок кода. Он работает, но уязвим к ошибкам. Ниже будет безопасная альтернатива.
-    let imageNames = ["bear_first", "heart_second", "leaf_third"]
-    let headerStrings = ["Join use today in our fun and games!"," Subscribe and get coupons on our daily events"," VIP members special services"]
-    */
 
     let pages = [
         Page(imageName: "bear_first", headerText: "Join use today in our fun and games!", bodyText: "Are you ready for loads and loads of fun? Don't wait any longer! We hope to see you in our stores soon."),
@@ -71,7 +64,6 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
     }()
 
     fileprivate func setupBottonControls(){
-
         let bottomControlsStackView = UIStackView(arrangedSubviews: [previouslyBotton, pageControl, nextBotton])
         bottomControlsStackView.translatesAutoresizingMaskIntoConstraints = false
         bottomControlsStackView.distribution = .fillEqually
@@ -95,12 +87,9 @@ class SwipingController: UICollectionViewController, UICollectionViewDelegateFlo
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupBottonControls()
-
         collectionView.backgroundColor = .white
         collectionView.register(PageCell.self, forCellWithReuseIdentifier: "cellId")
-
         collectionView.isPagingEnabled = true
     }
 }
